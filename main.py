@@ -1,51 +1,49 @@
 class Player:
-    X = "X"
-    O = "O"
+    X, O = "X", "O"
 
-def check_win(game: list) -> bool:
+def check_win(board: list) -> bool:
     for i in range(3):
-        if (game[i][0] == game[i][1] == game[i][2] != " "):
+        if (board[i][0] == board[i][1] == board[i][2] != " "):
             return True
-        if (game[0][i] == game[1][i] == game[2][i] != " "):
+        if (board[0][i] == board[1][i] == board[2][i] != " "):
             return True
-    if (game[0][0] == game[1][1] == game[2][2] != " "):
+    if (board[0][0] == board[1][1] == board[2][2] != " "):
         return True
-    if (game[0][2] == game[1][1] == game[2][0] != " "):
+    if (board[0][2] == board[1][1] == board[2][0] != " "):
         return True
     return False
 
-def valid_local(game: list, play: int) -> bool:
-    return True if (9 > play >= 0 and game[play // 3][play % 3] == " ") else False
+def valid_local(board: list, play: int) -> bool:
+    return 9 > play >= 0 and board[play // 3][play % 3] == " "
 
-def printgame(game: list):
-    for row in game:
-        print(f" | ".join(row))
-        print("-" * 9)
+def printgame(board: list):
+    for row in board:
+        print(f"\033[30m{" | ".join(row)}\033[m")
+        print(f"\033[30m{"-" * 9}\033[m")
 
 def main():
-    game = [[" " for _ in range(3)] for _ in range(3)]
-    player = input("Jogador 1 [O ou X]: ")
+    board = [[" " for _ in range(3)] for _ in range(3)]
+    player = input("\033[33mJogador 1 [O ou X]: \033[m\033[32m").upper()
     while player != Player.O and player != Player.X:
-        player = input("Jogador 1 [O ou X]: ")
+        player = input("\033[33mJogador 1 [O ou X]: \033[m\033[32m").upper()
     
     for _ in range(9):
-        printgame(game)
+        printgame(board)
 
-        play = int(input("- Digite um Local (1-9): ")) - 1
-        while not valid_local(game, play):
-            print("Local inválido, digite outro.")
-            play = int(input("- Digite um Local (1-9): ")) - 1
+        play = int(input("\033[34m- Digite um Local \033[m\033[31m(1-9)\033[m\033[34m: \033[m\033[32m")) - 1
+        while not valid_local(board, play):
+            print("\033[31mLocal inválido, digite outro.\033[m")
+            play = int(input("\033[34m- Digite um Local \033[m\033[31m(1-9)\033[m\033[34m: \033[m\033[32m")) - 1
         
-        game[play // 3][play % 3] = player
-        if (check_win(game)):
-            printgame(game)
-            print(f" - Jogo Finalizado! \n - O Vencendor foi: {player}")
+        board[play // 3][play % 3] = player
+        if check_win(board):
+            printgame(board)
+            print(f"\033[36m - Jogo Finalizado! \033[m\n\033[32m - O Vencendor foi: \033[m\033[33m{player}\033[m")
             break
-        else:
-            player = Player.O if player == Player.X else Player.X
+        player = Player.O if player == Player.X else Player.X
     else:
-        printgame(game)
-        print(" - Empate!")
+        printgame(board)
+        print("\033[30m - Empate!\033[m")
 
-if (__name__ == "__main__"):
+if __name__ == "__main__":
     main()
