@@ -24,7 +24,7 @@ def printgame(board: list):
 def main():
     board = [[" " for _ in range(3)] for _ in range(3)]
     player = input("\033[33mJogador 1 [O ou X]: \033[m\033[32m").upper()
-    while player != Player.O and player != Player.X:
+    while not player in [Player.O, Player.X]:
         player = input("\033[33mJogador 1 [O ou X]: \033[m\033[32m").upper()
     
     for _ in range(9):
