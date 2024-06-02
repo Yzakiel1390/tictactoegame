@@ -23,27 +23,27 @@ def printgame(board: list):
 
 def main():
     board = [[" " for _ in range(3)] for _ in range(3)]
-    player = input("\033[33mJogador 1 [O ou X]: \033[m\033[32m").upper()
+    player = input("\033[33mPlayer 1 [O or X]: \033[m\033[32m").upper()
     while not player in [Player.O, Player.X]:
-        player = input("\033[33mJogador 1 [O ou X]: \033[m\033[32m").upper()
+        player = input("\033[33mPlayer 1 [O or X]: \033[m\033[32m").upper()
     
     for _ in range(9):
         printgame(board)
 
-        play = int(input("\033[34m- Digite um Local \033[m\033[31m(1-9)\033[m\033[34m: \033[m\033[32m")) - 1
+        play = int(input("\033[34m- Select a location \033[m\033[31m(1-9)\033[m\033[34m: \033[m\033[32m")) - 1
         while not valid_local(board, play):
-            print("\033[31mLocal inválido, digite outro.\033[m")
-            play = int(input("\033[34m- Digite um Local \033[m\033[31m(1-9)\033[m\033[34m: \033[m\033[32m")) - 1
+            print("\033[31mInvalid location, select another.\033[m")
+            play = int(input("\033[34m- Select a location \033[m\033[31m(1-9)\033[m\033[34m: \033[m\033[32m")) - 1
         
         board[play // 3][play % 3] = player
         if check_win(board):
             printgame(board)
-            print(f"\033[36m - Jogo Finalizado! \033[m\n\033[32m - O Vencendor foi: \033[m\033[33m{player}\033[m")
+            print(f"\033[36m - Game Finished! \033[m\n\033[32m - The Winnes was: \033[m\033[33m{player}\033[m")
             break
         player = Player.O if player == Player.X else Player.X
     else:
         printgame(board)
-        print("\033[30m - Empate!\033[m")
+        print("\033[30m - It's a tie!\033[m")
 
 if __name__ == "__main__":
     main()
